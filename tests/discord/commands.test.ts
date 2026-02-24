@@ -33,7 +33,7 @@ function createMockMessage(overrides: Partial<{ content: string; createdTimestam
   return {
     content,
     createdTimestamp,
-    attachments: { values: () => attachments.values(), get: () => undefined } as Message["attachments"],
+    attachments: { values: () => attachments.values(), get: () => undefined },
     author: { id: TEST_USER_ID },
   } as unknown as Message;
 }

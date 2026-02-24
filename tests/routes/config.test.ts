@@ -228,7 +228,6 @@ describe("POST /troubleshooting-guide", () => {
     const res = await app.inject({
       method: "POST",
       url: "/troubleshooting-guide",
-      payload: null,
     });
     expect(res.statusCode).toBe(400);
   });
