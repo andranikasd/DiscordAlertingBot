@@ -1,0 +1,8 @@
+# Every file in the repository requires approval from andranikasd.
+# This is enforced automatically when branch protection is configured
+# to require CODEOWNERS review (Settings → Branches → master rule).
+
+*  @andranikasd
+
+# CI / release workflows — extra explicit ownership
+.github/  @andranikasd
