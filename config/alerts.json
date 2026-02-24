@@ -1,0 +1,24 @@
+{
+  "RdsCpuUtilizationHigh": {
+    "channelId": "1448124088567726110",
+    "suppressWindowMs": 600000,
+    "importantLabels": ["instance", "environment", "severity"],
+    "hiddenLabels": ["alertname", "DBInstanceIdentifier", "grafana_folder", "job", "service", "Series"]
+  },
+  "instance_down": {
+    "channelId": "1448124088567726110",
+    "suppressWindowMs": 300000
+  },
+  "default": {
+    "channelId": "1448124088567726110",
+    "suppressWindowMs": 300000
+  },
+  "TestAlert": {
+    "channelId": "1448124088567726110",
+    "suppressWindowMs": 300000,
+    "importantLabels": ["instance", "environment", "severity", "grafana_folder"],
+    "hiddenLabels": ["alertname", "job", "service"],
+    "thumbnailUrl": "https://grafana.com/static/assets/img/fav32.png",
+    "mentions": ["1290568581578493955"]
+  }
+}
