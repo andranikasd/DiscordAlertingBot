@@ -6,20 +6,14 @@ Thank you for your interest in contributing! This document covers everything you
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Branching Strategy](#branching-strategy)
 - [Commit Conventions](#commit-conventions)
 - [Development Workflow](#development-workflow)
 - [Running Tests](#running-tests)
+- [Releasing a New Version](#releasing-a-new-version)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Reporting Issues](#reporting-issues)
-
----
-
-## Code of Conduct
-
-This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating you agree to uphold it.
 
 ---
 
@@ -51,16 +45,31 @@ npm run dev
 
 ## Branching Strategy
 
-| Branch | Purpose |
-|--------|---------|
-| `master` | Stable, production-ready code. Protected — no direct pushes. |
-| `feat/<short-description>` | New features |
-| `fix/<short-description>` | Bug fixes |
-| `chore/<short-description>` | Maintenance, dependency updates, tooling |
-| `docs/<short-description>` | Documentation-only changes |
-| `refactor/<short-description>` | Internal refactors with no behaviour change |
+This project follows **GitHub Flow** — the simplest possible strategy:
 
-Always branch from `master`:
+```
+master  ←──── always deployable, protected
+   │
+   ├── feat/add-pagerduty-source   ──► PR ──► merge ──► master
+   ├── fix/escalation-loop-panic   ──► PR ──► merge ──► master
+   └── chore/bump-discord-js       ──► PR ──► merge ──► master
+```
+
+| Branch prefix | Purpose |
+|--------------|---------|
+| `feat/<description>` | New features |
+| `fix/<description>` | Bug fixes |
+| `chore/<description>` | Maintenance, dependency updates, tooling |
+| `docs/<description>` | Documentation-only changes |
+| `refactor/<description>` | Internal refactors with no behaviour change |
+
+**Rules:**
+
+- `master` is always in a releasable state — every merge must pass CI.
+- Never push directly to `master` (configure branch protection in GitHub → Settings → Branches).
+- One logical change per branch; keep PRs small and focused.
+
+Always branch from the latest `master`:
 
 ```bash
 git checkout master
@@ -183,6 +192,38 @@ Tests mirror `src/` in `tests/`. When adding new functionality, add correspondin
 5. Push your branch and open a pull request against `master`.
 6. Fill in the PR template — link related issues, describe the change, and confirm the checklist.
 7. A maintainer will review your PR. Address any requested changes by pushing new commits (do not force-push after review has started).
+
+---
+
+## Releasing a New Version
+
+This project uses [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`) and GitHub Releases.
+
+**Who can release:** maintainers with push access to `master`.
+
+### Steps
+
+1. Update `CHANGELOG.md` — move entries from `[Unreleased]` to a new `[X.Y.Z]` section with today's date.
+2. Bump the version in `package.json`.
+3. Commit both files on `master`:
+   ```bash
+   git add CHANGELOG.md package.json
+   git commit -m "chore(release): v1.2.3"
+   ```
+4. Create and push an annotated tag:
+   ```bash
+   git tag -a v1.2.3 -m "v1.2.3"
+   git push origin master --follow-tags
+   ```
+5. The **Release** GitHub Actions workflow triggers automatically, runs lint/test/build, extracts the changelog entry for that version, and publishes a GitHub Release.
+
+### Version bump rules
+
+| Change | Version bump |
+|--------|-------------|
+| Backwards-compatible bug fix | PATCH (`1.0.0` → `1.0.1`) |
+| New backwards-compatible feature | MINOR (`1.0.0` → `1.1.0`) |
+| Breaking change | MAJOR (`1.0.0` → `2.0.0`) |
 
 ---
 
